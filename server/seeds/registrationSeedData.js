@@ -1,4 +1,4 @@
-const generateRegistration = function() {
+const generateRegistrations = function() {
 	const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	let registrations = [];
 	
@@ -27,4 +27,4 @@ const generateRegistration = function() {
 	return registrations;
 };
 
-module.exports = { generateRegistration };
+module.exports = { generateRegistrations };
