@@ -1,0 +1,42 @@
+.yellow {
+	background-color: #FFBF00;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+}
+
+.top-nav {
+	margin: 20px auto;
+}
+
+#registration_no {
+	margin-right: 15px;
+}
+
+.classroom-container {
+	display: flex;
+	flex-direction: row;
+	/* Centres the flexbox items */
+	margin: 15px auto;
+	/* Adds a bit of a gap between the flexbox items */
+	gap: 50px;
+}
+
+.classroom-heading {
+	text-align: center;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.student-item {
+	padding: 5px 10px;
+	border-radius: 5px;
+}
+
+button, input {
+	border-radius: 5px;
+	border-width: 1px;
+	padding: 5px
+}

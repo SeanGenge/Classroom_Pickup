@@ -10,7 +10,7 @@ function StudentItem({ student, rego, thisStudentRego, handleStudentRegoUpdate }
 	};
 	
 	return (
-		<div className={thisStudentRego.length > 0 ? "yellow" : ""}>
+		<div className={`${thisStudentRego.length > 0 ? "yellow" : ""} student-item`}>
 			<input type="checkbox" id={`studentId_${student.id}`} value={student.id} onClick={handleCheckboxOnClick} />
 			<span>  {student.first_name} {student.last_name}</span>
 		</div>

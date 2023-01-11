@@ -27,9 +27,9 @@ function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate })
 	});
 	
 	return (
-		<div>
-			<div>{classroom_no}</div>
-			<form>
+		<div className="classroom">
+			<div className="classroom-heading">{`Class ${classroom_no}`}</div>
+			<form className="classroom-form">
 				{studentList}
 			</form>
 		</div>

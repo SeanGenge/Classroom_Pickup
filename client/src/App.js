@@ -38,10 +38,16 @@ function App() {
 	
 	return (
 		<>
-			<button onClick={resetState}>Reset</button>
-			<input type="text" id="registration_no" value={rego} onChange={(e) => setRego(e.target.value.toUpperCase())} />
-			<Classroom classroom_no="A" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey} />
-			<Classroom classroom_no="B" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey + 1} />
+			<div className="container">
+				<div className="top-nav">
+					<input type="text" id="registration_no" value={rego} onChange={(e) => setRego(e.target.value.toUpperCase())} />
+					<button onClick={resetState}>Reset Everything</button>
+				</div>
+				<div className="classroom-container">
+					<Classroom classroom_no="A" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey} />
+					<Classroom classroom_no="B" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey + 1} />	
+				</div>
+			</div>
 		</>
 	);
 }
