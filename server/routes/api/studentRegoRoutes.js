@@ -1,9 +1,11 @@
 const router = require('express').Router();
-const { Student_rego } = require('../../models');
+const { Student, Registration, Student_rego } = require('../../models');
 
 router.get('/', async (req, res) => {
 	try {
-		const studentRegoData = await Student_rego.findAll();
+		const studentRegoData = await Student_rego.findAll({
+			include: [{ model: Student }, { model: Registration }]
+		});
 
 		res.status(200).json(studentRegoData);
 	}

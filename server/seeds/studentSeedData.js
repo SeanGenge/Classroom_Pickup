@@ -1,3 +1,4 @@
+// First names and last names were retrieved online
 const firstNames = [
 	"Robert",
 	"James",
@@ -129,7 +130,9 @@ const generateFirstName = function() {
 };
 
 const generateLastName = function () {
-	return lastNames[Math.floor(Math.random() * lastNames.length)];
+	const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+	
+	return lastName[0].toUpperCase() + lastName.slice(1).toLocaleLowerCase();
 };
 
 module.exports = { generateStudents };

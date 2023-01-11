@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StudentItem from './StudentItem';
 
-function Classroom({ classroom_no }) {
+function Classroom({ classroom_no, rego, studentRego }) {
 	const [students, setStudents] = useState([]);
 	
 	useEffect(() => {
@@ -12,15 +12,16 @@ function Classroom({ classroom_no }) {
 			.then(response => response.json())
 			.then(result => {
 				setStudents(result);
-				console.log(result);
 			});
 		};
 		
 		fetchData();
-	}, []);
+	}, [classroom_no]);
 	
 	const studentList = students.map((student, id) => {
-		return <StudentItem student={student} key={id} />
+		const thisStudentRego = studentRego?.filter(sr => sr.student_id === student.id && rego === sr.registration.registration);
+		console.log(thisStudentRego);
+		return <StudentItem rego={rego} student={student} thisStudentRego={thisStudentRego} key={id} />
 	});
 	
 	return (

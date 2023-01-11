@@ -3,6 +3,7 @@ const sequelize = require('../config/connection');
 
 class Student_rego extends Model {}
 
+// This table is required as there is a many to many relationship between the registrations and students
 Student_rego.init(
 	{
 		id: {

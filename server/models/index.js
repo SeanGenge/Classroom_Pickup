@@ -9,11 +9,17 @@ Registration.hasMany(Student_rego, {
 	onDelete: 'CASCADE',
 });
 
+Student_rego.belongsTo(Registration, {
+	foreignKey: 'registration_id'
+})
+
 Student.hasMany(Student_rego, {
 	foreignKey: 'student_id',
 	onDelete: 'CASCADE',
 });
 
-
+Student_rego.belongsTo(Student, {
+	foreignKey: 'student_id'
+})
 
 module.exports = { Registration, Student_rego, Student };

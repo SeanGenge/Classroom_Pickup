@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-function StudentItem({student}) {
+function StudentItem({ student, rego, thisStudentRego }) {
+	const [shouldHighlight, setShouldHighlight] = useState(false);
+	
 	const updateCheckbox = () => {
-		console.log("a");
+		
 	};
 	
 	return (
-		<div>
-			<input type="checkbox" id="myCheck" onClick={updateCheckbox()} />
+		<div className={thisStudentRego.length > 0 ? "yellow" : ""}>
+			<input type="checkbox" id="myCheck" value={student.id} onClick={updateCheckbox()} />
 			<span>  {student.first_name} {student.last_name}</span>
 		</div>
 	);
