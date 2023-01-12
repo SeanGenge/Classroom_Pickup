@@ -1,10 +1,7 @@
-.yellow {
-	background-color: #FFBF00;
-}
-
 .container {
 	display: flex;
 	flex-direction: column;
+	flex-wrap: wrap;
 }
 
 .top-nav {
@@ -17,6 +14,7 @@
 
 .classroom-container {
 	display: flex;
+	flex-wrap: wrap;
 	flex-direction: row;
 	/* Centres the flexbox items */
 	margin: 15px auto;
@@ -35,8 +33,14 @@
 	border-radius: 5px;
 }
 
-button, input {
-	border-radius: 5px;
-	border-width: 1px;
-	padding: 5px
+.student-name {
+	display: inline-block;
+	width: 160px;
+	margin-left: 15px;
+	text-align: left;
+}
+
+.highlight {
+	background-color: #FFBF00;
+	
 }

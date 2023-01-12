@@ -39,13 +39,21 @@ function App() {
 	return (
 		<>
 			<div className="container">
-				<div className="top-nav">
-					<input type="text" id="registration_no" value={rego} onChange={(e) => setRego(e.target.value.toUpperCase())} />
-					<button onClick={resetState}>Reset Everything</button>
+				<div className="row justify-content-md-center mt-4">
+					<div className="col-sm-12 col-md-4">
+						<input type="text" className="form-control" id="registration_no" value={rego} onChange={(e) => setRego(e.target.value.toUpperCase())} />
+					</div>
+					<div className="col-sm-12 col-md-3">
+						<button className="btn btn-primary" onClick={resetState}>Reset Everything</button>
+					</div>
 				</div>
-				<div className="classroom-container">
-					<Classroom classroom_no="A" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey} />
-					<Classroom classroom_no="B" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey + 1} />	
+				<div className="row justify-content-md-center">
+					<div className="col-sm-12 col-md-5 col-lg-4">
+						<Classroom classroom_no="A" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey} />
+					</div>
+					<div className="col-sm-12 col-md-5 col-lg-4">
+						<Classroom classroom_no="B" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey + 1} />
+					</div>
 				</div>
 			</div>
 		</>

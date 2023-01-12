@@ -1,4 +1,22 @@
+const registrationNumbers = [
+	{"registration": "AAA111"},
+	{ "registration": "AAB111"},
+	{ "registration": "PGB742"},
+	{ "registration": "QWE460"},
+	{ "registration": "WER326"},
+	{ "registration": "TER760"},
+	{ "registration": "YUI430"},
+	{ "registration": "QWE993"},
+	{ "registration": "RMA922"},
+	{ "registration": "YUT777"},
+	{ "registration": "POI821"},
+	{ "registration": "TER025"},
+	{ "registration": "ORE832"},
+	{ "registration": "RET543"}
+]
+
 const generateRegistrations = function() {
+	// Decided not to use this as it can make testing a bit more difficult
 	const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	let registrations = [];
 	
@@ -11,11 +29,6 @@ const generateRegistrations = function() {
 				currentRego += alphabet[Math.floor(Math.random() * alphabet.length)];
 			}
 			else {
-				if (i === 3) {
-					// Add the dash
-					currentRego += "-";
-				}
-				
 				// Number part of the rego
 				currentRego += Math.floor(Math.random() * 10);
 			}
@@ -27,4 +40,6 @@ const generateRegistrations = function() {
 	return registrations;
 };
 
-module.exports = { generateRegistrations };
+
+
+module.exports = { generateRegistrations, registrationNumbers };
