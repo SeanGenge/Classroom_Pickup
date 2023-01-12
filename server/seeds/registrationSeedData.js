@@ -1,3 +1,4 @@
+// You can use these hardcoded values to test
 const registrationNumbers = [
 	{"registration": "AAA111"},
 	{ "registration": "AAB111"},
