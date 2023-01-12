@@ -1,10 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
-function StudentItem({ student, rego, thisStudentRego, handleStudentRegoUpdate }) {
+function StudentItem({ student, thisStudentRego, handleStudentRegoUpdate, updateNumStudentsLeft, updateNumStudentsPickedUp }) {
 	const [shouldHighlight, setShouldHighlight] = useState(false);
 	
 	const handleCheckboxOnClick = () => {
 		const checkbox = document.getElementById(`studentId_${student.id}`);
+		
+		if (checkbox.checked) {
+			// Remove the student
+			updateNumStudentsLeft(-1);
+			updateNumStudentsPickedUp(1);
+		}
+		else {
+			// Add the student
+			updateNumStudentsLeft(1);
+			updateNumStudentsPickedUp(-1);
+		}
 		
 		handleStudentRegoUpdate(student.id, checkbox.checked);
 	};

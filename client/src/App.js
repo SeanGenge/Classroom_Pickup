@@ -60,7 +60,7 @@ function App() {
 					<div className="col-sm-12 col-md-4">
 						<input type="text" className="form-control" id="registration_no" value={rego} onChange={(e) => checkRego(e)} />
 						<div id="no-rego" className={`alert alert-danger mt-2 ${displayError ? '' : 'd-none'}`} role="alert">
-							Sorry, there are no students or all the students have already been picked up by that registration number
+							Sorry, there are no students for that Registration number
 						</div>
 					</div>
 					<div className="col-sm-12 col-md-3">
