@@ -1,10 +1,10 @@
-const { UUIDV4, Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Student_rego extends Model {}
+class StudentCar extends Model {}
 
 // This table is required as there is a many to many relationship between the registrations and students
-Student_rego.init(
+StudentCar.init(
 	{
 		id: {
 			type: DataTypes.INTEGER,
@@ -12,10 +12,10 @@ Student_rego.init(
 			primaryKey: true,
 			autoIncrement: true,
 		},
-		registration_id: {
+		car_id: {
 			type: DataTypes.INTEGER,
 			references: {
-				model: 'registration',
+				model: 'car',
 				key: 'id',
 			},
 		},
@@ -32,8 +32,8 @@ Student_rego.init(
 		timestamps: true,
 		freezeTableName: true,
 		underscored: true,
-		modelName: 'student_rego',
+		modelName: 'studentCar',
 	}
 );
 
-module.exports = Student_rego;
+module.exports = StudentCar;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function StudentItem({ student, rego, studentRego, addOrRemoveStudent, updateNumStudentsPickedUp, hasThisStudentAlreadyLeft }) {
+function StudentItem({ student, rego, studentCar, addOrRemoveStudent, updateNumStudentsPickedUp, hasThisStudentAlreadyLeft }) {
 	
 	const handleCheckboxOnClick = () => {
 		const checkbox = document.getElementById(`studentId_${student.id}`);
@@ -20,7 +20,7 @@ function StudentItem({ student, rego, studentRego, addOrRemoveStudent, updateNum
 	
 	const shouldHighlight = () => {
 		// Returns true if the name should be hightlighted, if not returns false
-		return hasThisStudentAlreadyLeft && studentRego.filter(sr => sr.registration.registration === rego && sr.student_id === student.id).length;
+		return hasThisStudentAlreadyLeft && studentCar.filter(sr => sr.car.registration === rego && sr.student_id === student.id).length;
 	}
 	
 	return (

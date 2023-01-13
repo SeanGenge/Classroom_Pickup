@@ -1,11 +1,11 @@
 const router = require('express').Router();
-const { Registration } = require('../../models');
+const { Car } = require('../../models');
 
 router.get('/', async (req, res) => {
 	try {
-		const registrationData = await Registration.findAll();
+		const carData = await Car.findAll();
 
-		res.status(200).json(registrationData);
+		res.status(200).json(carData);
 	}
 	catch (err) {
 		res.status(500).json(err);

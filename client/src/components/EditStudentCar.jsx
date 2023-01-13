@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-function EditStudentRego({ studentRego }) {
-	const [currStudentRego, setCurrStudentRego] = useState([]);
+function EditStudentCar({ studentCar }) {
+	const [currStudentCar, setCurrStudentCar] = useState([]);
 	const [currStudent, setCurrStudent] = useState({});
 	
 	// useEffect(() => {
@@ -38,4 +38,4 @@ function EditStudentRego({ studentRego }) {
 	);
 }
 
-export default EditStudentRego;
+export default EditStudentCar;

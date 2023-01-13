@@ -1,15 +1,15 @@
 const sequelize = require('../config/connection');
-const { Student, Registration, Student_rego } = require('../models');
+const { Student, Car, StudentCar } = require('../models');
 
 const studentSeedData = require('./studentSeedData.js');
-const registrationSeedData = require('./registrationSeedData.js');
+const carSeedData = require('./carSeedData.js');
 
 const seedDatabase = async () => {
 	await sequelize.sync({ force: true });
 	
 	const students = await Student.bulkCreate(studentSeedData.generateStudents());
 	
-	const registrations = await Registration.bulkCreate(registrationSeedData.registrationNumbers);
+	const registrations = await Car.bulkCreate(carSeedData.registrationNumbers);
 	
 	let count = 0;
 	
@@ -23,15 +23,28 @@ const seedDatabase = async () => {
 			registration = registrations[count].id;
 		}
 		
-		// Create a new entry in the student_rego table
-		const newStudentRego = await Student_rego.create({
+		// Create a new entry in the StudentCar table
+		const newStudentCar = await StudentCar.create({
 			"student_id": id,
-			
-			"registration_id": registration
+			"car_id": registration
 		});
 		
 		count++;
 	}
+	
+	// Manually create some duplicates to test some use cases
+	const newStudentCar = [
+		{
+			"student_id": 1,
+			"car_id": 2
+		},
+		{
+			"student_id": 11,
+			"car_id": 1
+		}
+	];
+	
+	const extraStudentCarData = await StudentCar.bulkCreate(newStudentCar);
 	
 	process.exit(0);
 };

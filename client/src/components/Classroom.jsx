@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StudentItem from './StudentItem';
 
-function Classroom({ classroom_no, rego, studentRego, addOrRemoveStudent, studentIdsWhoLeft }) {
+function Classroom({ classroom_no, rego, studentCar, addOrRemoveStudent, studentIdsWhoLeft }) {
 	const [students, setStudents] = useState([]);
 	// Only need to store the number of students that are picked up
 	const [numStudentsPickedUp, setNumStudentsPickedUp] = useState(0);
@@ -29,7 +29,7 @@ function Classroom({ classroom_no, rego, studentRego, addOrRemoveStudent, studen
 		// Check the student ids who left to determine if this student should be highlighted or not
 		const hasThisStudentAlreadyLeft = !studentIdsWhoLeft.filter(sid => sid === student.id).length;
 		
-		return <StudentItem student={student} rego={rego} studentRego={studentRego} addOrRemoveStudent={addOrRemoveStudent} updateNumStudentsPickedUp={updateNumStudentsPickedUp} hasThisStudentAlreadyLeft={hasThisStudentAlreadyLeft} key={id} />
+		return <StudentItem student={student} rego={rego} studentCar={studentCar} addOrRemoveStudent={addOrRemoveStudent} updateNumStudentsPickedUp={updateNumStudentsPickedUp} hasThisStudentAlreadyLeft={hasThisStudentAlreadyLeft} key={id} />
 	});
 	
 	const getNumStudentsLeft = () => {

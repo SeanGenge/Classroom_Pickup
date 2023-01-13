@@ -19,7 +19,7 @@ Student.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		// Hardcoding the classes as well
+		// Hardcoding the classes for this project
 		class: {
 			type: DataTypes.STRING,
 			allowNull: false,

@@ -1,15 +1,15 @@
 const router = require('express').Router();
-const { Student, Registration, Student_rego } = require('../../models');
+const { Student, Car, StudentCar } = require('../../models');
 const { Op } = require("sequelize");
 
 router.get('/', async (req, res) => {
 	// Retrieve all the student registrations
 	try {
-		const studentRegoData = await Student_rego.findAll({
-			include: [{ model: Student }, { model: Registration }]
+		const StudentCarData = await StudentCar.findAll({
+			include: [{ model: Student }, { model: Car }]
 		});
 
-		res.status(200).json(studentRegoData);
+		res.status(200).json(StudentCarData);
 	}
 	catch (err) {
 		res.status(500).json(err);
@@ -19,13 +19,13 @@ router.get('/', async (req, res) => {
 router.get('/:rego', async (req, res) => {
 	// Retrieve all the students that belong to a certain registration (Perfect match)
 	try {
-		const studentRegoData = await Student_rego.findAll({
+		const StudentCarData = await StudentCar.findAll({
 			include: [
 				{
 					model: Student,
 				},
 				{
-					model: Registration,
+					model: Car,
 					where: {
 						registration: {
 						[Op.like]: `${req.params.rego}`
@@ -35,7 +35,7 @@ router.get('/:rego', async (req, res) => {
 			
 		});
 
-		res.status(200).json(studentRegoData);
+		res.status(200).json(StudentCarData);
 	}
 	catch (err) {
 		res.status(500).json(err);
