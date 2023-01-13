@@ -1,13 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import Classroom from './components/Classroom';
+import EditStudentRego from './components/EditStudentRego';
 
 function App() {
 	const [currKey, setCurrKey] = useState(0);
+	// Keeps track of the students and the registrations attached to that student
 	const [studentRego, setStudentRego] = useState([]);
 	const [rego, setRego] = useState("");
-	// Used to keep a copy of the removed students
+	// Used to keep a copy of the removed students. This is required so you are able to 
 	const [removedStudentRego, setRemovedStudentRego] = useState([]);
+	// true: Displays the registration error for the input
 	const [displayError, setDisplayError] = useState(false);
+	// The currently selected student for editing
+	const [currStudentId, setCurrStudentId] = useState(0);
 	
 	useEffect(() => {
 		const fetchData = async () => {
@@ -69,13 +74,14 @@ function App() {
 				</div>
 				<div className="row justify-content-md-center">
 					<div className="col-sm-12 col-md-5 col-lg-4">
-						<Classroom classroom_no="A" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey} />
+						<Classroom classroom_no="A" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} setCurrStudentId={setCurrStudentId} key={currKey} />
 					</div>
 					<div className="col-sm-12 col-md-5 col-lg-4">
-						<Classroom classroom_no="B" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} key={currKey + 1} />
+						<Classroom classroom_no="B" rego={rego} studentRego={studentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} setCurrStudentId={setCurrStudentId} key={currKey + 1} />
 					</div>
 				</div>
 			</div>
+			<EditStudentRego currStudentId={currStudentId} studentRego={studentRego} />
 		</>
 	);
 }

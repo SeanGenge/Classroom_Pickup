@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import StudentItem from './StudentItem';
 
-function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate }) {
+function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate, setCurrStudentId }) {
 	const [students, setStudents] = useState([]);
 	const [numStudentsLeft, setNumStudentsLeft] = useState(0);
 	const [numStudentsPickedUp, setNumStudentsPickedUp] = useState(0);
@@ -34,8 +34,13 @@ function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate })
 		// Filters out the student registration to check if there is a match with the student id and registration. If there is a match then we know that the student belongs to that registration
 		const thisStudentRego = studentRego?.filter(sr => sr.student_id === student.id && rego === sr.registration.registration);
 		
-		return <StudentItem student={student} thisStudentRego={thisStudentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} updateNumStudentsLeft={updateNumStudentsLeft} updateNumStudentsPickedUp={updateNumStudentsPickedUp} key={id} />
+		return <StudentItem student={student} thisStudentRego={thisStudentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} updateNumStudentsLeft={updateNumStudentsLeft} updateNumStudentsPickedUp={updateNumStudentsPickedUp} setCurrStudentId={setCurrStudentId} key={id} />
 	});
+	
+	const preventSubmit = (e) => {
+		// Prevent the form from being submitted and refreshing the page
+		e.preventDefault();
+	}
 	
 	return (
 		<div className="row">
@@ -50,7 +55,7 @@ function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate })
 					{numStudentsPickedUp} students picked up
 				</div>
 			</div>
-			<form className="col-sm-12 text-center">
+			<form className="col-sm-12 text-center" onSubmit={(e) => preventSubmit(e)}>
 				{studentList}
 			</form>
 		</div>
