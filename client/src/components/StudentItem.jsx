@@ -1,30 +1,32 @@
 import React, { useState, useEffect } from 'react';
 
-function StudentItem({ student, thisStudentRego, handleStudentRegoUpdate, updateNumStudentsLeft, updateNumStudentsPickedUp, setCurrStudentId }) {
-	const [shouldHighlight, setShouldHighlight] = useState(false);
+function StudentItem({ student, rego, studentRego, addOrRemoveStudent, updateNumStudentsPickedUp, hasThisStudentAlreadyLeft }) {
 	
 	const handleCheckboxOnClick = () => {
 		const checkbox = document.getElementById(`studentId_${student.id}`);
 		
 		if (checkbox.checked) {
 			// Remove the student
-			updateNumStudentsLeft(-1);
 			updateNumStudentsPickedUp(1);
 		}
 		else {
 			// Add the student
-			updateNumStudentsLeft(1);
 			updateNumStudentsPickedUp(-1);
 		}
 		
-		handleStudentRegoUpdate(student.id, checkbox.checked);
+		// Add or remove the student depending on the check box
+		addOrRemoveStudent(student.id, checkbox.checked);
 	};
 	
+	const shouldHighlight = () => {
+		// Returns true if the name should be hightlighted, if not returns false
+		return hasThisStudentAlreadyLeft && studentRego.filter(sr => sr.registration.registration === rego && sr.student_id === student.id).length;
+	}
+	
 	return (
-		<div className={`${thisStudentRego.length > 0 ? "highlight" : ""} student-item`}>
-			<input className="form-check-input mt-2" type="checkbox" id={`studentId_${student.id}`} value={student.id} onClick={handleCheckboxOnClick} />
+		<div className={`${shouldHighlight() ? "highlight" : ""} student-item`}>
+			<input className="form-check-input" type="checkbox" id={`studentId_${student.id}`} value={student.id} onClick={handleCheckboxOnClick} />
 			<label className="form-check-label student-name">  {student.first_name} {student.last_name}</label>
-			<button className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={(e) => setCurrStudentId(student.id)}><i className="fa-solid fa-pen-to-square"></i></button>
 		</div>
 	);
 }

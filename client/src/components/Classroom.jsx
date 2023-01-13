@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import StudentItem from './StudentItem';
 
-function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate, setCurrStudentId }) {
+function Classroom({ classroom_no, rego, studentRego, addOrRemoveStudent, studentIdsWhoLeft }) {
 	const [students, setStudents] = useState([]);
-	const [numStudentsLeft, setNumStudentsLeft] = useState(0);
+	// Only need to store the number of students that are picked up
 	const [numStudentsPickedUp, setNumStudentsPickedUp] = useState(0);
 	
 	useEffect(() => {
@@ -14,16 +14,11 @@ function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate, s
 			.then(response => response.json())
 			.then(result => {
 				setStudents(result);
-				setNumStudentsLeft(result.length);
 			});
 		};
 		
 		fetchData();
 	}, [classroom_no]);
-	
-	const updateNumStudentsLeft = (incr) => {
-		setNumStudentsLeft(numStudentsLeft + incr);
-	}
 	
 	const updateNumStudentsPickedUp = (incr) => {
 		setNumStudentsPickedUp(numStudentsPickedUp + incr);
@@ -31,11 +26,15 @@ function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate, s
 	
 	// This is represents each student in the classroom
 	const studentList = students.map((student, id) => {
-		// Filters out the student registration to check if there is a match with the student id and registration. If there is a match then we know that the student belongs to that registration
-		const thisStudentRego = studentRego?.filter(sr => sr.student_id === student.id && rego === sr.registration.registration);
+		// Check the student ids who left to determine if this student should be highlighted or not
+		const hasThisStudentAlreadyLeft = !studentIdsWhoLeft.filter(sid => sid === student.id).length;
 		
-		return <StudentItem student={student} thisStudentRego={thisStudentRego} handleStudentRegoUpdate={handleStudentRegoUpdate} updateNumStudentsLeft={updateNumStudentsLeft} updateNumStudentsPickedUp={updateNumStudentsPickedUp} setCurrStudentId={setCurrStudentId} key={id} />
+		return <StudentItem student={student} rego={rego} studentRego={studentRego} addOrRemoveStudent={addOrRemoveStudent} updateNumStudentsPickedUp={updateNumStudentsPickedUp} hasThisStudentAlreadyLeft={hasThisStudentAlreadyLeft} key={id} />
 	});
+	
+	const getNumStudentsLeft = () => {
+		return students.length - numStudentsPickedUp;
+	}
 	
 	const preventSubmit = (e) => {
 		// Prevent the form from being submitted and refreshing the page
@@ -49,7 +48,7 @@ function Classroom({ classroom_no, rego, studentRego, handleStudentRegoUpdate, s
 			</div>
 			<div className="row text-center">
 				<div className="col-sm-12">
-					{numStudentsLeft} students remaining
+					{getNumStudentsLeft()} students remaining
 				</div>
 				<div className="col-sm-12">
 					{numStudentsPickedUp} students picked up

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-function EditStudentRego({ currStudentId, studentRego }) {
+function EditStudentRego({ studentRego }) {
 	const [currStudentRego, setCurrStudentRego] = useState([]);
 	const [currStudent, setCurrStudent] = useState({});
 	
-	useEffect(() => {
-		if (studentRego?.length) {
-			const currSR = studentRego.filter(sr => sr.student_id === currStudentId);
+	// useEffect(() => {
+	// 	if (studentRego?.length) {
+	// 		const currSR = studentRego.filter(sr => sr.student_id === currStudentId);
 			
-			if (currSR.length) {
-				setCurrStudent(currSR[0].student);
-				setCurrStudentRego(currSR);
-				console.log(currSR);
-			}
-		}
-	}, [studentRego, currStudentId]);
+	// 		if (currSR.length) {
+	// 			setCurrStudent(currSR[0].student);
+	// 			setCurrStudentRego(currSR);
+	// 			console.log(currSR);
+	// 		}
+	// 	}
+	// }, [studentRego, currStudentId]);
 	
 	return (
 		// Prevent the modal from being closed accidentally, you have to click on one of the buttons to close the modal
