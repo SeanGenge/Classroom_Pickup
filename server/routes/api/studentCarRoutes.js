@@ -28,11 +28,42 @@ router.get('/:rego', async (req, res) => {
 					model: Car,
 					where: {
 						registration: {
-						[Op.like]: `${req.params.rego}`
+						[Op.like]: req.params.rego
 					}
 				}
 			}],
 			
+		});
+
+		res.status(200).json(StudentCarData);
+	}
+	catch (err) {
+		res.status(500).json(err);
+	}
+});
+
+router.post('/:rego', async (req, res) => {
+	// Pass a list of student ids who you don't want to be returned
+	try {
+		const StudentCarData = await StudentCar.findAll({
+			include: [
+				{
+					model: Student,
+					where: {
+						id: {
+							[Op.notIn]: req.body.studentIds
+						}
+					}
+				},
+				{
+					model: Car,
+					where: {
+						registration: {
+							[Op.eq]: req.params.rego
+						}
+					}
+				}],
+
 		});
 
 		res.status(200).json(StudentCarData);

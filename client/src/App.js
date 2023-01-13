@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Classroom from './components/Classroom';
 import EditStudentCar from './components/EditStudentCar';
 
 function App() {
 	const [currKey, setCurrKey] = useState(0);
 	// The data retrieved from the db for the studentCar table
-	const [studentCarData, setstudentCarData] = useState([]);
+	const [studentsTakingCar, setStudentsTakingCar] = useState([]);
 	// Keeps track of the student ids that have left
 	const [studentIdsWhoLeft, setStudentIdsWhoLeft] = useState([]);
 	// The binding for the input
@@ -16,29 +16,34 @@ function App() {
 	const [classes, setClasses] = useState([]);
 	
 	useEffect(() => {
-		// Run at the start of the app
-		const fetchData = async () => {
-			setstudentCarData(await fetchstudentCar());
-		}
-		
-		fetchData();
+		// Run at the start of the app once
 		setClasses(["A", "B"]);
 	}, []);
 	
-	const fetchstudentCar = async () => {
+	const fetchStudentsTakingCar = async (rego) => {
 		// Get the student rego data from the back-end and return the result
-		return await fetch("/api/studentcar/")
+		return await fetch(`/api/studentcar/${rego}`, {
+			method: 'POST',
+			body: JSON.stringify({ "studentIds": studentIdsWhoLeft }),
+			headers: {
+				'Content-Type': 'application/json',
+			}
+		})
 			.then(response => response.json());
 	};
 	
-	const addOrRemoveStudent = (studentId, remove) => {
+	const addOrRemoveStudent = async (studentId, remove) => {
 		// Handle the removal/adding back of students when the checkbox is ticked/unticked
 		// remove: Set to true to remove a student and false to add
 		if (remove) {
 			setStudentIdsWhoLeft(studentIdsWhoLeft.concat(studentId));
 		}
 		else {
-			setStudentIdsWhoLeft(studentIdsWhoLeft.filter(sid => sid !== studentId));
+			const newStudentIdsWhoLeft = studentIdsWhoLeft.filter(sid => sid !== studentId);
+			setStudentIdsWhoLeft(newStudentIdsWhoLeft);
+			
+			// Update the students taking the car with that rego when adding students back
+			fetchStudentsTakingCar(newStudentIdsWhoLeft);
 		}
 	};
 	
@@ -46,12 +51,12 @@ function App() {
 		// Returns true if the car is picking up the student (if the student hasn't already been picked up already) and false otherwise
 		const isStudentAlreadyPickedUp = studentIdsWhoLeft.find(sid => sid === studentId);
 		
-		return !isStudentAlreadyPickedUp && studentCarData.filter(sr => sr.student_id === studentId && sr.car.registration === rego).length;
+		return !isStudentAlreadyPickedUp && studentsTakingCar.filter(sr => sr.student_id === studentId && sr.car.registration === rego).length;
 	}
 	
 	const isCarTakingAnyStudents = (rego) => {
 		// Returns true if the car is taking any students at all and false otherwise
-		return studentCarData.filter(sr => sr.car.registration === rego).length;
+		return studentsTakingCar.filter(sr => sr.car.registration === rego).length;
 	}
 	
 	const checkRego = async (e) => {
@@ -60,8 +65,14 @@ function App() {
 		
 		setRego(value);
 		
-		if (value.length === 6 && !isCarTakingAnyStudents(value)) {
-			setDisplayError(true);
+		if (value.length === 6) {
+			const studentsTakingCarData = await fetchStudentsTakingCar(value);
+			
+			setStudentsTakingCar(studentsTakingCarData);
+			
+			if (!studentsTakingCarData.length) {
+				setDisplayError(true);
+			}
 		}
 		else {
 			setDisplayError(false);
@@ -76,7 +87,7 @@ function App() {
 	const classrooms = classes.map((c, id) => {
 		return (
 			<div className="col-sm-12 col-md-5 col-lg-4" key={id + currKey}>
-				<Classroom classroom_no={c} rego={rego} studentCar={studentCarData} addOrRemoveStudent={addOrRemoveStudent} studentIdsWhoLeft={studentIdsWhoLeft} />
+				<Classroom classroom_no={c} rego={rego} studentCar={studentsTakingCar} addOrRemoveStudent={addOrRemoveStudent} studentIdsWhoLeft={studentIdsWhoLeft} />
 			</div>
 		);
 	});
@@ -102,7 +113,7 @@ function App() {
 					{classrooms}
 				</div>
 			</div>
-			<EditStudentCar studentCar={studentCarData} />
+			<EditStudentCar studentCar={studentsTakingCar} />
 		</>
 	);
 }
