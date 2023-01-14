@@ -43,7 +43,7 @@ router.get('/:rego', async (req, res) => {
 });
 
 router.post('/:rego', async (req, res) => {
-	// Pass a list of student ids who you don't want to be returned
+	// Retrieves a list of students where their ids are not in the studentIds list and where the pickup car has registration "rego"
 	try {
 		const StudentCarData = await StudentCar.findAll({
 			include: [

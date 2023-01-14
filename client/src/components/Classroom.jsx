@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import StudentItem from './StudentItem';
+import { getStudentsFromClass } from '../utils/api.js';
 
 function Classroom({ classroom_no, rego, studentCar, addOrRemoveStudent, studentIdsWhoLeft }) {
 	const [students, setStudents] = useState([]);
@@ -10,11 +11,7 @@ function Classroom({ classroom_no, rego, studentCar, addOrRemoveStudent, student
 		// Called once on load
 		const fetchData = async () => {
 			// Fetch the student data from the back-end
-			await fetch(`/api/student/class/${classroom_no}`)
-			.then(response => response.json())
-			.then(result => {
-				setStudents(result);
-			});
+			setStudents(await getStudentsFromClass(classroom_no));
 		};
 		
 		fetchData();
