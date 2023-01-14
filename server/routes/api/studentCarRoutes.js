@@ -73,4 +73,37 @@ router.post('/:rego', async (req, res) => {
 	}
 });
 
+router.post('/', async (req, res) => {
+	// Bulk add data to the studentcar table
+	try {
+		const StudentCarData = await StudentCar.bulkCreate(req.body.studentCarData);
+
+		res.status(200).json(StudentCarData);
+	}
+	catch (err) {
+		res.status(500).json(err);
+	}
+});
+
+router.delete('/', async (req, res) => {
+	// Go through the whole list and delete one at a time
+	try {
+		const deleteStudentCars = req.body.studentCarData;
+		
+		for (const studentCar of deleteStudentCars) {
+			const StudentCarData = await StudentCar.destroy({
+				where: {
+					"student_id": studentCar.student_id,
+					"car_id": studentCar.car_id
+				}
+			});
+		}
+
+		res.status(200).json(deleteStudentCars);
+	}
+	catch (err) {
+		res.status(500).json(err);
+	}
+});
+
 module.exports = router;

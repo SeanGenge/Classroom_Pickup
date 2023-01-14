@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
-import { getAllStudents, getStudentCar } from '../utils/api.js';
+import { getAllStudents, getStudentCar, getAllCars, bulkCreateStudentCar, bulkDeleteStudentCar } from '../utils/api.js';
 
 function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 	const [studentCar, setStudentCar] = useState([]);
 	const [students, setStudents] = useState([]);
+	const [cars, setCars] = useState([]);
 	const [options, setOptions] = useState([]);
 	const [selectedValues, setSelectedValues] = useState({});
-	const [modifiedChanges, setModifiedChanges] = useState({});
+	const [createChanges, setCreateChanges] = useState([]);
+	const [deleteChanges, setDeleteChanges] = useState([]);
 	
 	useEffect(() => {
 		const fetchData = async () => {
@@ -15,16 +17,27 @@ function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 			setStudents(await getAllStudents());
 		};
 		
+		// Only run when the modal is open, basically resets everything to the values in the db
 		if (updateEditDetails) {
 			fetchData();
+			setCreateChanges([]);
 			setUpdateEditDetails(false);
 		}
-	});
+	}, [setCreateChanges, setUpdateEditDetails, updateEditDetails]);
+	
+	useEffect(() => {
+		const fetchData = async () => {
+			setCars(await getAllCars());
+		};
+		
+		// Only run once
+		fetchData();
+	}, []);
 	
 	useEffect(() => {
 		// Convert students into a format that the multiselect can understand:
 		// {name: 'name', id: 'id}
-		const optionsArr = students.map(student => { return {'name': `${student.first_name} ${student.last_name}`, 'id': student.id }});
+		const optionsArr = students.map(student => {return {'name': `${student.first_name} ${student.last_name}`, 'id': student.id}});
 		
 		// Convert and combine the optionsArr into an object
 		setOptions(optionsArr);
@@ -44,24 +57,67 @@ function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 			}
 		});
 		
+		// To avoid a registration not having any students, add an empty list to those regos
+		cars.forEach(car => {
+			if (!(car.registration in selectedValuesObj)) {
+				selectedValuesObj[car.registration] = [];
+			}
+		});
+		
+		// Not really needed but to keep the registrations in the same order, even if a rego doesn't have any students
+		selectedValuesObj = Object.keys(selectedValuesObj).sort().reduce(
+			(obj, key) => {
+				obj[key] = selectedValuesObj[key];
+				return obj;
+			},
+			{}
+		);
+		
 		setSelectedValues(selectedValuesObj);
 		
 	}, [studentCar, students]);
 	
 	const onSelect = (selectedList, selectedItem, key) => {
-		const newKeyList = [...selectedValues[key], selectedItem];
+		// Requied so the multiList is reset when opening the modal
+		setSelectedValues({...selectedValues, [key]: selectedList});
 		
-		setSelectedValues({...selectedValues, [key]: newKeyList});
+		// Get the car id
+		const carId = cars.find(car => car.registration === key).id;
+		const newChanges = [...createChanges, {"car_id": carId, "student_id": selectedItem.id}];
+		
+		setCreateChanges(newChanges);
+		
+		console.log(selectedList, selectedItem, key);
 	}
 	
 	const onRemove = (selectedList, removedItem, key) => {
-		const removedItemId = selectedValues[key].findIndex(item => item.id === removedItem.id);
-		const newKeyList = [...selectedValues[key]];
+		// Requied so the multiList is reset when opening the modal
+		setSelectedValues({ ...selectedValues, [key]: selectedList });
 		
-		newKeyList.splice(removedItemId, 1);
+		// Get the car id
+		const carId = cars.find(car => car.registration === key).id;
+		const newChanges = [...deleteChanges, { "car_id": carId, "student_id": removedItem.id }];
 
-		setSelectedValues({ ...selectedValues, [key]: newKeyList });
+		setDeleteChanges(newChanges);
+		
+		// Check if the deleted changes are in the create changes, if they are then remove it from the create changes
+		const isInCreateChanges = createChanges.findIndex(value => value.student_id === removedItem.id && value.car_id === carId);
+		
+		if (isInCreateChanges !== -1) {
+			// Create a copy before modifying that
+			const newCreateChanges = [...createChanges];
+			newCreateChanges.splice(isInCreateChanges, 1);
+			
+			setCreateChanges(newCreateChanges);
+		}
+		
+		console.log(selectedList, removedItem, key);
 	};
+	
+	const saveData = async (e) => {
+		bulkCreateStudentCar(createChanges);
+		bulkDeleteStudentCar(deleteChanges);
+	}
 	
 	// Generate the multiselect options for each car registration
 	const multiselects = Object.keys(selectedValues).map((key, id) => {
@@ -93,8 +149,8 @@ function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 						{multiselects}
 					</div>
 					<div className="modal-footer">
-						<button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-						<button type="button" className="btn btn-primary">Save</button>
+						<button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+						<button type="button" className="btn btn-success" onClick={saveData}>Save</button>
 					</div>
 				</div>
 			</div>

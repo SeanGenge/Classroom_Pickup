@@ -23,6 +23,18 @@ function App() {
 		setClasses(["A", "B"]);
 	}, []);
 	
+	useEffect(() => {
+		const fetchData = async () => {
+			if (rego.length) {
+				const studentsTakingCarData = await getStudentsTakingCar(rego, studentIdsWhoLeft);
+				console.log(studentsTakingCarData);
+				setStudentsTakingCar(studentsTakingCarData);
+			}
+		};
+		
+		fetchData();
+	}, [rego, setStudentsTakingCar, studentIdsWhoLeft]);
+	
 	const addOrRemoveStudent = async (studentId, remove) => {
 		// Handle the removal/adding back of students when the checkbox is ticked/unticked
 		// remove: Set to true to remove a student and false to add
@@ -45,13 +57,13 @@ function App() {
 		setRego(value);
 		
 		if (value.length === 6) {
-			const studentsTakingCarData = await getStudentsTakingCar(value, studentIdsWhoLeft);
+			//const studentsTakingCarData = await getStudentsTakingCar(value, studentIdsWhoLeft);
 			
-			setStudentsTakingCar(studentsTakingCarData);
+			//setStudentsTakingCar(studentsTakingCarData);
 			
-			if (!studentsTakingCarData.length) {
-				setDisplayError(true);
-			}
+			// if (!studentsTakingCarData.length) {
+			// 	setDisplayError(true);
+			// }
 		}
 		else {
 			setDisplayError(false);

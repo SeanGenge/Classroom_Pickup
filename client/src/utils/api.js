@@ -18,10 +18,37 @@ export const getStudentsFromClass = async (classroom_no) => {
 export const getAllStudents = async () => {
 	return await fetch(`/api/student/`)
 		.then(response => response.json());
-}
+};
 
 export const getStudentCar = async () => {
 	// Fetch all students and the cars taking them
 	return await fetch(`/api/studentcar/`)
+		.then(response => response.json());
+};
+
+export const getAllCars = async () => {
+	return await fetch(`/api/car/`)
+		.then(response => response.json());
+}
+
+export const bulkCreateStudentCar = async (newStudentCar) => {
+	return await fetch(`/api/studentcar/`, {
+		method: 'POST',
+		body: JSON.stringify({"studentCarData": newStudentCar}),
+		headers: {
+			'Content-Type': 'application/json',
+		}
+	})
+		.then(response => response.json());
+};
+
+export const bulkDeleteStudentCar = async (deleteStudentCar) => {
+	return await fetch(`/api/studentcar/`, {
+		method: 'DELETE',
+		body: JSON.stringify({ "studentCarData": deleteStudentCar }),
+		headers: {
+			'Content-Type': 'application/json',
+		}
+	})
 		.then(response => response.json());
 };
