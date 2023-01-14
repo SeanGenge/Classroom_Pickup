@@ -17,6 +17,9 @@ function App() {
 	const [classes, setClasses] = useState([]);
 	// Used to retriev the edit details for the modal
 	const [updateEditDetails, setUpdateEditDetails] = useState(false);
+	// Keeps a history record. Used to reset the db back to the default values
+	const [historyCreatedChanges, setHistoryCreatedChanges] = useState([]);
+	const [historyDeletedchanges, setHistoryDeletedChanges] = useState([]);
 	
 	useEffect(() => {
 		// Run at the start of the app once
