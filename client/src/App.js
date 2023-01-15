@@ -84,7 +84,7 @@ function App() {
 	
 	return (
 		<>
-			<div className="container">
+			<div className="container mb-5">
 				<div className="row justify-content-md-center mt-4">
 					<div className="col-sm-12 col-md-4 mb-3">
 						<input type="text" className="form-control" placeholder="registration number" id="registration_no" value={rego} onChange={(e) => setRego(e.target.value.toUpperCase())} />

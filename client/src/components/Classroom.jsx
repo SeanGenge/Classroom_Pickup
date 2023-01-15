@@ -40,7 +40,7 @@ function Classroom({ classroom_no, rego, studentCar, addOrRemoveStudent, student
 	
 	return (
 		<div className="row">
-			<div className="col-sm-12 classroom-heading">
+			<div className="col-sm-12 classroom-heading mt-4">
 				{`Class ${classroom_no}`}
 			</div>
 			<div className="row text-center">
@@ -51,7 +51,7 @@ function Classroom({ classroom_no, rego, studentCar, addOrRemoveStudent, student
 					{numStudentsPickedUp} students picked up
 				</div>
 			</div>
-			<form className="col-sm-12 text-center" onSubmit={(e) => preventSubmit(e)}>
+			<form className="col-sm-12 text-center mt-3" onSubmit={(e) => preventSubmit(e)}>
 				{studentList}
 			</form>
 		</div>
