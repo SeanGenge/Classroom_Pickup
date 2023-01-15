@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-
 function StudentItem({ student, rego, studentCar, addOrRemoveStudent, updateNumStudentsPickedUp, hasThisStudentAlreadyLeft }) {
 	
 	const handleCheckboxOnClick = () => {

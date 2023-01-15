@@ -4,14 +4,6 @@
 	flex-wrap: wrap;
 }
 
-.top-nav {
-	margin: 20px auto;
-}
-
-#registration_no {
-	margin-right: 15px;
-}
-
 .classroom-container {
 	display: flex;
 	flex-wrap: wrap;
@@ -29,8 +21,9 @@
 }
 
 .student-item {
-	padding: 5px 10px;
+	margin: 5px 10px;
 	border-radius: 5px;
+	transition: all .15s linear;
 }
 
 .student-name {
@@ -40,7 +33,20 @@
 	text-align: left;
 }
 
-.highlight {
+.student-item.highlight {
 	background-color: #FFBF00;
-	
+}
+
+#no-rego {
+	transition: all .5s;
+	max-height: 0;
+	padding: 0 15px;
+	border: 0;
+	overflow: hidden;
+}
+
+#no-rego.display {
+	max-height: 100px;
+	padding: 15px;
+	height: auto;
 }

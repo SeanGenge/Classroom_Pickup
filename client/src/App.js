@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect} from 'react';
 import Classroom from './components/Classroom';
 import EditStudentCar from './components/EditStudentCar';
 import { getStudentsTakingCar } from './utils/api.js';
@@ -32,9 +32,20 @@ function App() {
 		const fetchData = async () => {
 			if (rego.length === 6 || (rego.length === 6 && shouldUpdateStudentsTakingCar)) {
 				const studentsTakingCarData = await getStudentsTakingCar(rego, studentIdsWhoLeft);
-				console.log("A");
+				
+				// Display an error if there is no data
+				if (studentsTakingCarData.length) {
+					setDisplayError(false);
+				}
+				else {
+					setDisplayError(true);
+				}
+				
 				setStudentsTakingCar(studentsTakingCarData);
 				setShouldUpdateStudentsTakingCar(false);
+			}
+			else {
+				setDisplayError(false);
 			}
 		};
 		
@@ -56,26 +67,6 @@ function App() {
 		}
 	};
 	
-	const checkRego = async (e) => {
-		// The value of the typed registration
-		const value = e.target.value.toUpperCase();
-		
-		setRego(value);
-		
-		if (value.length === 6) {
-			//const studentsTakingCarData = await getStudentsTakingCar(value, studentIdsWhoLeft);
-			
-			//setStudentsTakingCar(studentsTakingCarData);
-			
-			// if (!studentsTakingCarData.length) {
-			// 	setDisplayError(true);
-			// }
-		}
-		else {
-			setDisplayError(false);
-		}
-	};
-	
 	const resetState = () => {
 		// Forces all the child components with a key set to currKey to unmount and remount, resetting them
 		setCurrKey(currKey + 10);
@@ -94,8 +85,8 @@ function App() {
 			<div className="container">
 				<div className="row justify-content-md-center mt-4">
 					<div className="col-sm-12 col-md-4 mb-3">
-						<input type="text" className="form-control" placeholder="registration number" id="registration_no" value={rego} onChange={(e) => checkRego(e)} />
-						<div id="no-rego" className={`alert alert-danger mt-2 ${displayError ? '' : 'd-none'}`} role="alert">
+						<input type="text" className="form-control" placeholder="registration number" id="registration_no" value={rego} onChange={(e) => setRego(e.target.value.toUpperCase())} />
+						<div id="no-rego" className={`alert alert-danger mt-2 ${displayError ? 'display' : ''}`} role="alert">
 							Sorry, there are no students for that Registration number
 						</div>
 					</div>
