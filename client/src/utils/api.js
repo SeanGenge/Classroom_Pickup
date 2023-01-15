@@ -52,3 +52,9 @@ export const bulkDeleteStudentCar = async (deleteStudentCar) => {
 	})
 		.then(response => response.json());
 };
+
+export const resetAll = async () => {
+	// Warning: This resets the database back to their original hardcoded values
+	return await fetch(`/api/car/resetall`)
+		.then(response => response.json());
+};

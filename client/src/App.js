@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Classroom from './components/Classroom';
 import EditStudentCar from './components/EditStudentCar';
-import { getStudentsTakingCar } from './utils/api.js';
+import { getStudentsTakingCar, resetAll } from './utils/api.js';
 
 function App() {
 	const [currKey, setCurrKey] = useState(0);
@@ -70,6 +70,8 @@ function App() {
 	const resetState = () => {
 		// Forces all the child components with a key set to currKey to unmount and remount, resetting them
 		setCurrKey(currKey + 10);
+		resetAll();
+		setRego("");
 	};
 	
 	const classrooms = classes.map((c, id) => {
