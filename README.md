@@ -1,7 +1,7 @@
 # Classroom Pickup [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
-Type a registration ('AAA111' ex.) into the registration input and tick off the students
+Type a registration ('AAA111' ex.) into the registration input and tick off the students. Hosted on https://classroom-pickup.herokuapp.com/
 
 ## Table of Contents
 - [Installation](#installation)
