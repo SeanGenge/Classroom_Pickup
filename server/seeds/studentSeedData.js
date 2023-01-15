@@ -1,3 +1,132 @@
+// For testing purposes I hardcoded the values based on the below
+const students = [
+	{
+		"first_name": "Barbara",
+		"last_name": "williams",
+		"class": "A"
+	},
+	{
+		"first_name": "Sarah",
+		"last_name": "Walker",
+		"class": "A"
+	},
+	{
+		"first_name": "Steven",
+		"last_name": "Rodriguez",
+		"class": "A"
+	},
+	{
+		"first_name": "Richard",
+		"last_name": "Campbell",
+		"class": "A"
+	},
+	{
+		"first_name": "Susan",
+		"last_name": "Jones",
+		"class": "A"
+	},
+	{
+		"first_name": "Ashley",
+		"last_name": "Garcia",
+		"class": "A"
+	},
+	{
+		"first_name": "Thomas",
+		"last_name": "Davis",
+		"class": "A"
+	},
+	{
+		"first_name": "John",
+		"last_name": "Taylor",
+		"class": "A"
+	},
+	{
+		"first_name": "Donna",
+		"last_name": "Mitchell",
+		"class": "A"
+	},
+	{
+		"first_name": "Michael",
+		"last_name": "Miller",
+		"class": "A"
+	},
+	{
+		"first_name": "Paul",
+		"last_name": "Roberts",
+		"class": "B"
+	},
+	{
+		"first_name": "Anthony",
+		"last_name": "White",
+		"class": "B"
+	},
+	{
+		"first_name": "Margaret",
+		"last_name": "Campbell",
+		"class": "B"
+	},
+	{
+		"first_name": "Joshua",
+		"last_name": "Brown",
+		"class": "B"
+	},
+	{
+		"first_name": "Donna",
+		"last_name": "Sanchez",
+		"class": "B"
+	},
+	{
+		"first_name": "Lisa",
+		"last_name": "Jones",
+		"class": "B"
+	},
+	{
+		"first_name": "Patricia",
+		"last_name": "Gonzalez",
+		"class": "B"
+	},
+	{
+		"first_name": "Sandra",
+		"last_name": "Lee",
+		"class": "B"
+	},
+	{
+		"first_name": "Emily",
+		"last_name": "Brown",
+		"class": "B"
+	},
+	{
+		"first_name": "Kimberly",
+		"last_name": "White",
+		"class": "B"
+	},
+	{
+		"first_name": "Donald",
+		"last_name": "Baker",
+		"class": "B"
+	},
+	{
+		"first_name": "Richard",
+		"last_name": "Smith",
+		"class": "B"
+	},
+	{
+		"first_name": "Ashley",
+		"last_name": "Green",
+		"class": "B"
+	},
+	{
+		"first_name": "Michael",
+		"last_name": "Perez",
+		"class": "B"
+	},
+	{
+		"first_name": "Daniel",
+		"last_name": "Hill",
+		"class": "B"
+	},
+];
+
 // First names and last names were retrieved online
 const firstNames = [
 	"Robert",
@@ -135,4 +264,4 @@ const generateLastName = function () {
 	return lastName[0].toUpperCase() + lastName.slice(1).toLocaleLowerCase();
 };
 
-module.exports = { generateStudents };
+module.exports = { generateStudents, students };

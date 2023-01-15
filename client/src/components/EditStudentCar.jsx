@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Multiselect from 'multiselect-react-dropdown';
 import { getAllStudents, getStudentCar, getAllCars, bulkCreateStudentCar, bulkDeleteStudentCar } from '../utils/api.js';
 
-function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
+function EditStudentCar({ updateEditDetails, setUpdateEditDetails, setShouldUpdateStudentsTakingCar }) {
 	const [studentCar, setStudentCar] = useState([]);
 	const [students, setStudents] = useState([]);
 	const [cars, setCars] = useState([]);
@@ -21,6 +21,7 @@ function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 		if (updateEditDetails) {
 			fetchData();
 			setCreateChanges([]);
+			setDeleteChanges([]);
 			setUpdateEditDetails(false);
 		}
 	}, [setCreateChanges, setUpdateEditDetails, updateEditDetails]);
@@ -75,7 +76,7 @@ function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 		
 		setSelectedValues(selectedValuesObj);
 		
-	}, [studentCar, students]);
+	}, [studentCar, students, cars]);
 	
 	const onSelect = (selectedList, selectedItem, key) => {
 		// Requied so the multiList is reset when opening the modal
@@ -86,8 +87,6 @@ function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 		const newChanges = [...createChanges, {"car_id": carId, "student_id": selectedItem.id}];
 		
 		setCreateChanges(newChanges);
-		
-		console.log(selectedList, selectedItem, key);
 	}
 	
 	const onRemove = (selectedList, removedItem, key) => {
@@ -110,13 +109,14 @@ function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 			
 			setCreateChanges(newCreateChanges);
 		}
-		
-		console.log(selectedList, removedItem, key);
 	};
 	
 	const saveData = async (e) => {
 		bulkCreateStudentCar(createChanges);
 		bulkDeleteStudentCar(deleteChanges);
+		
+		// Let the classes know to update themselves. Required to update any highlighted students
+		setShouldUpdateStudentsTakingCar(true);
 	}
 	
 	// Generate the multiselect options for each car registration
@@ -150,7 +150,7 @@ function EditStudentCar({ updateEditDetails, setUpdateEditDetails }) {
 					</div>
 					<div className="modal-footer">
 						<button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-						<button type="button" className="btn btn-success" onClick={saveData}>Save</button>
+						<button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={saveData}>Save</button>
 					</div>
 				</div>
 			</div>

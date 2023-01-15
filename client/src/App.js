@@ -15,28 +15,31 @@ function App() {
 	const [displayError, setDisplayError] = useState(false);
 	// As there are only two classes, hardcoded those values here. Can add to the db if you want to extend this app
 	const [classes, setClasses] = useState([]);
-	// Used to retriev the edit details for the modal
+	// Used to retrieve the edit details for the modal
 	const [updateEditDetails, setUpdateEditDetails] = useState(false);
 	// Keeps a history record. Used to reset the db back to the default values
 	const [historyCreatedChanges, setHistoryCreatedChanges] = useState([]);
 	const [historyDeletedchanges, setHistoryDeletedChanges] = useState([]);
+	// Set to true to update the studentsTakingCar data
+	const [shouldUpdateStudentsTakingCar, setShouldUpdateStudentsTakingCar] = useState(false);
 	
 	useEffect(() => {
-		// Run at the start of the app once
+		// Run at the start of the app once, hardcoded classes
 		setClasses(["A", "B"]);
 	}, []);
 	
 	useEffect(() => {
 		const fetchData = async () => {
-			if (rego.length) {
+			if (rego.length === 6 || (rego.length === 6 && shouldUpdateStudentsTakingCar)) {
 				const studentsTakingCarData = await getStudentsTakingCar(rego, studentIdsWhoLeft);
-				console.log(studentsTakingCarData);
+				console.log("A");
 				setStudentsTakingCar(studentsTakingCarData);
+				setShouldUpdateStudentsTakingCar(false);
 			}
 		};
 		
 		fetchData();
-	}, [rego, setStudentsTakingCar, studentIdsWhoLeft]);
+	}, [rego, setStudentsTakingCar, studentIdsWhoLeft, shouldUpdateStudentsTakingCar]);
 	
 	const addOrRemoveStudent = async (studentId, remove) => {
 		// Handle the removal/adding back of students when the checkbox is ticked/unticked
@@ -105,7 +108,7 @@ function App() {
 					{classrooms}
 				</div>
 			</div>
-			<EditStudentCar updateEditDetails={updateEditDetails} setUpdateEditDetails={setUpdateEditDetails} />
+			<EditStudentCar updateEditDetails={updateEditDetails} setUpdateEditDetails={setUpdateEditDetails} setShouldUpdateStudentsTakingCar={setShouldUpdateStudentsTakingCar} />
 		</>
 	);
 }
