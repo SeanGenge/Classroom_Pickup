@@ -17,9 +17,6 @@ function App() {
 	const [classes, setClasses] = useState([]);
 	// Used to retrieve the edit details for the modal
 	const [updateEditDetails, setUpdateEditDetails] = useState(false);
-	// Keeps a history record. Used to reset the db back to the default values
-	const [historyCreatedChanges, setHistoryCreatedChanges] = useState([]);
-	const [historyDeletedchanges, setHistoryDeletedChanges] = useState([]);
 	// Set to true to update the studentsTakingCar data
 	const [shouldUpdateStudentsTakingCar, setShouldUpdateStudentsTakingCar] = useState(false);
 	
@@ -71,6 +68,7 @@ function App() {
 		// Forces all the child components with a key set to currKey to unmount and remount, resetting them
 		setCurrKey(currKey + 10);
 		resetAll();
+		setStudentIdsWhoLeft([]);
 		setRego("");
 	};
 	
