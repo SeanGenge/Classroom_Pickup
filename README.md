@@ -4,6 +4,8 @@
 Type a registration ('AAA111' ex.) into the registration input and tick off the students. Hosted on https://classroom-pickup.herokuapp.com/
 
 ## Table of Contents
+- [Technologies used](#technologies-used)
+
 - [Installation](#installation)
 
 - [Tests](#tests)
@@ -12,7 +14,18 @@ Type a registration ('AAA111' ex.) into the registration input and tick off the 
 
 - [License](#license)
 
+## Technologies used
+### Front-end
+- React.js
+- multiselect-react-dropdown
 
+### Back-end
+- MySQL
+- Node.js
+- Sequelize
+- concurrently
+- dotenv
+- express
 
 ## Installation
 To install the necessary dependencies, run the following command:
